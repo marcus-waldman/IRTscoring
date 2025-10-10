@@ -18,9 +18,10 @@
   - Simplified unidimensional interface via `fit_unidim_ability()`
 
 * **Score Decomposition**: Ability scores decomposed as θ = β₀ + X·b + η
-  - Fixed effects (intercepts + covariate effects)
-  - Random effects (individual deviations)
+  - Fixed effects (intercepts + covariate effects) - each dimension has its own β₀[k] and b[k,j]
+  - Random effects (individual deviations η[n,k])
   - Utility functions: `get_covariate_effects()`, `get_individual_effects()`
+  - For K dimensions: θ[n,k] = β₀[k] + Σⱼ X[n,j]·b[k,j] + η[n,k]
 
 * **Comprehensive S3 Methods**:
   - `print.irt_fit()`: Clean summary output

@@ -197,19 +197,23 @@ Ability scores are decomposed into fixed and random components:
 
 **θ = β₀ + X·b + η**
 
-Where:
-- **θ** = Total ability scores (what you observe)
-- **β₀** = Dimension intercepts (population means)
-- **X·b** = Covariate effects (if covariates included)
-- **η** = Individual-specific deviations (person effects)
+Where (for K dimensions and J covariates):
+- **θ** = N × K matrix of total ability scores (what you observe)
+- **β₀** = K-length vector of dimension intercepts (one per dimension)
+- **b** = K × J matrix of covariate effects (each dimension has its own coefficients)
+- **X** = N × J matrix of person covariates
+- **η** = N × K matrix of individual-specific deviations (person effects)
+
+For each person n and dimension k:
+**θ[n,k] = β₀[k] + Σⱼ X[n,j]·b[k,j] + η[n,k]**
 
 ```r
 # Extract components
-abilities <- predict(fit)                    # θ (total scores)
-cov_effects <- get_covariate_effects(fit)    # β₀ + X·b
-ind_effects <- get_individual_effects(fit)   # η
+abilities <- predict(fit)                    # θ (N × K matrix)
+cov_effects <- get_covariate_effects(fit)    # β₀ + X·b (N × K matrix)
+ind_effects <- get_individual_effects(fit)   # η (N × K matrix)
 
-# Verify decomposition
+# Verify decomposition holds for all dimensions
 all.equal(abilities, cov_effects + ind_effects)  # TRUE
 ```
 
