@@ -1,0 +1,35 @@
+Package: IRTscoring
+Title: Flexible Item Response Theory Scoring
+Version: 0.1.0
+Authors@R:
+    person("Marcus", "Waldman", email = "marcus.waldman@example.com",
+           role = c("aut", "cre"))
+Description: Provides flexible estimation methods for unidimensional and
+    multidimensional Item Response Theory (IRT) models. Supports MAP,
+    Variational Bayes (including Pathfinder), Laplace Approximation, and
+    full Bayesian MCMC estimation via Stan, as well as alternative optimizers
+    via BridgeStan.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+    rstan (>= 2.26.0),
+    cmdstanr,
+    checkmate,
+    Matrix,
+    posterior,
+    methods
+Suggests:
+    bridgestan,
+    optimx,
+    trustOptim,
+    nloptr,
+    mirt,
+    MASS,
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    ggplot2,
+    dplyr
+VignetteBuilder: knitr

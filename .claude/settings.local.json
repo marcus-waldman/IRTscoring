@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"C:\\Program Files\\R\\R-4.5.1\\bin\\Rscript.exe\" -e \"library(devtools); check(error_on = ''''never'''')\")",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
