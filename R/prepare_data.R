@@ -87,9 +87,12 @@ prepare_irt_data <- function(response_data,
   N <- length(unique(response_data$pid))
 
   # Handle infinite thresholds
-  inf_code <- -999
-  threshold_left[is.infinite(threshold_left)] <- inf_code
-  threshold_right[is.infinite(threshold_right)] <- inf_code
+  # Map -Inf to -999 and +Inf to +999 to preserve probability bounds
+  inf_code <- 999
+  threshold_left[threshold_left == -Inf] <- -inf_code
+  threshold_left[threshold_left == Inf] <- inf_code
+  threshold_right[threshold_right == -Inf] <- -inf_code
+  threshold_right[threshold_right == Inf] <- inf_code
 
   # Create person covariate matrix
   if (is.null(person_covariates)) {
@@ -120,7 +123,7 @@ prepare_irt_data <- function(response_data,
 
   # Format for Stan
   stan_data <- list(
-    inf = inf_code,
+    inf = inf_code,  # Not actually used by Stan, but kept for reference
     L = L,
     N = N,
     J = J,

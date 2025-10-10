@@ -6,11 +6,12 @@
 // - Person-level covariates affecting each dimension
 // - Correlated dimensions via Cholesky-factored correlation matrix
 // - Ordered categorical responses with threshold boundaries
-// - Infinite threshold handling (coded as -999)
+// - Infinite threshold handling: -Inf→-999, +Inf→+999 (done in R)
 
 data {
-  // Infinite threshold code
-  real inf;                    // Code for infinity (typically -999)
+  // Note: Infinite thresholds are handled in R before passing to Stan
+  // -Inf is mapped to -999, +Inf is mapped to +999
+  real inf;                    // Placeholder (999), not actually used
 
   // Dimensions
   int<lower=1> L;              // Number of response observations
@@ -32,21 +33,8 @@ data {
 }
 
 transformed data {
-  // Check for boundary thresholds and convert infinities
-  vector[L] dL_finite;
-  vector[L] dR_finite;
-  array[L] int is_dL_inf;
-  array[L] int is_dR_inf;
-
-  for (l in 1:L) {
-    // Check if thresholds are infinite (coded as inf)
-    is_dL_inf[l] = (dL[l] == inf) ? 1 : 0;
-    is_dR_inf[l] = (dR[l] == inf) ? 1 : 0;
-
-    // Replace infinite values with finite placeholders for computation
-    dL_finite[l] = is_dL_inf[l] ? -10.0 : dL[l];
-    dR_finite[l] = is_dR_inf[l] ? 10.0 : dR[l];
-  }
+  // No transformation needed - infinities already handled in R
+  // -Inf mapped to -999, +Inf mapped to +999
 }
 
 parameters {
@@ -108,20 +96,9 @@ model {
 
     // Compute probability for this response category
     // P(response in category) = Phi(eta + dR) - Phi(eta + dL)
-
-    if (is_dL_inf[l] && is_dR_inf[l]) {
-      // Both boundaries infinite: probability = 1 (degenerate)
-      pr = 1.0;
-    } else if (is_dL_inf[l]) {
-      // Left boundary is -infinity: P = Phi(eta + dR)
-      pr = Phi(eta_l + dR_finite[l]);
-    } else if (is_dR_inf[l]) {
-      // Right boundary is +infinity: P = 1 - Phi(eta + dL)
-      pr = 1.0 - Phi(eta_l + dL_finite[l]);
-    } else {
-      // Both boundaries finite: P = Phi(eta + dR) - Phi(eta + dL)
-      pr = Phi(eta_l + dR_finite[l]) - Phi(eta_l + dL_finite[l]);
-    }
+    // Since -Inf→-999 and +Inf→+999, Phi will naturally handle boundaries:
+    // Phi(eta - 999) ≈ 0 and Phi(eta + 999) ≈ 1
+    pr = Phi(eta_l + dR[l]) - Phi(eta_l + dL[l]);
 
     // Add to log likelihood with person weight
     target += wgt[person] * log(pr);
@@ -144,16 +121,7 @@ generated quantities {
     real pr;
 
     eta_l = dot_product(A[l,], theta[person,]);
-
-    if (is_dL_inf[l] && is_dR_inf[l]) {
-      pr = 1.0;
-    } else if (is_dL_inf[l]) {
-      pr = Phi(eta_l + dR_finite[l]);
-    } else if (is_dR_inf[l]) {
-      pr = 1.0 - Phi(eta_l + dL_finite[l]);
-    } else {
-      pr = Phi(eta_l + dR_finite[l]) - Phi(eta_l + dL_finite[l]);
-    }
+    pr = Phi(eta_l + dR[l]) - Phi(eta_l + dL[l]);
 
     log_lik += wgt[person] * log(pr);
   }

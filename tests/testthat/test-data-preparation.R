@@ -14,10 +14,10 @@ test_that("prepare_irt_data handles simple unidimensional case", {
   expect_equal(result$K, 1)
   expect_equal(result$L, 4)
   expect_equal(result$N, 2)
-  expect_equal(result$inf, -999)
-  # Check that infinities were replaced
+  expect_equal(result$inf, 999)
+  # Check that infinities were replaced correctly
   expect_equal(result$dL[1], -999)  # Was -Inf
-  expect_equal(result$dR[2], -999)  # Was Inf
+  expect_equal(result$dR[2], 999)   # Was +Inf
 })
 
 test_that("prepare_irt_data handles multidimensional case", {
