@@ -47,3 +47,6 @@ tests/testthat/*.png
 
 # Simulation results
 simulation_results.rds
+
+# Todo lists (user-specific)
+todo/

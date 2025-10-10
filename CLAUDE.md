@@ -29,10 +29,11 @@ Thresholds define category boundaries:
 - The package validates sufficient thresholds for all observed responses
 
 ### Score Decomposition
-The package decomposes ability scores (θ) into components:
-- **Full abilities**: θ = β₀ + X·b + η (includes everything)
-- **Individual effects**: η (person-specific deviations)
-- **Covariate effects**: β₀ + X·b (predicted from covariates)
+The package decomposes ability scores (θ) into components for each dimension k:
+- **Full abilities**: θ[n,k] = β₀[k] + Σⱼ X[n,j]·b[k,j] + η[n,k]
+- **Individual effects**: η (N × K matrix of person-specific deviations)
+- **Covariate effects**: β₀ + X·b (N × K matrix predicted from covariates)
+- Each dimension has its own intercept β₀[k] and covariate coefficients b[k,j]
 
 ## Development Commands
 
@@ -137,19 +138,22 @@ The prepared data list for Stan includes:
 - `X`: Covariate matrix (N × J)
 - `A`: Loading matrix (L × K)
 
-## Implementation Phases
+## Implementation Status
 
-The project follows a 6-phase implementation plan (see `todo/irt_package_plan.md`):
+**Project Complete**: All phases implemented and tested.
 
-0. **Phase 0**: Project setup (package structure, dependencies)
-1. **Phase 1**: Stan model integration
-2. **Phase 2**: Data preparation functions
-3. **Phase 3**: Stan-based estimation (MAP, Laplace, VB, MCMC)
-4. **Phase 4**: BridgeStan integration (optional optimizers)
-5. **Phase 5**: Main user interface (`fscores()`, `fit_ability()`)
-6. **Phase 6**: S3 methods and utilities
+The project followed an 8-phase implementation plan:
 
-Each phase has detailed tasks, testing requirements, and git commit templates in the plan document.
+- [x] **Phase 0**: Project setup (package structure, dependencies)
+- [x] **Phase 1**: Stan model integration
+- [x] **Phase 2**: Data preparation functions
+- [x] **Phase 3**: Stan-based estimation (MAP, Laplace, VB, MCMC)
+- [x] **Phase 4**: BridgeStan integration (optional optimizers)
+- [x] **Phase 5**: Main user interface (`fscores()`, `fit_ability()`)
+- [x] **Phase 6**: S3 methods and utilities
+- [x] **Phase 7**: Documentation and package finalization
+
+The package is production-ready with comprehensive documentation and testing.
 
 ## R Environment
 
@@ -162,15 +166,14 @@ Each phase has detailed tasks, testing requirements, and git commit templates in
 **Required**:
 - `rstan` (>= 2.26.0) or `cmdstanr`: Stan estimation
 - `checkmate`: Input validation
-- `Matrix`, `posterior`, `methods`: Data structures
 
 **Suggested**:
-- `bridgestan`: Alternative optimizers
+- `bridgestan`: Alternative optimizers (experimental)
 - `optimx`, `trustOptim`, `nloptr`: Optimization algorithms
 - `mirt`: Validation comparisons
 - `MASS`: Multivariate normal sampling (Laplace approximation)
 - `testthat` (>= 3.0.0): Testing
-- `ggplot2`, `dplyr`: Visualization and data manipulation
+- `devtools`: Development workflow
 
 ## Testing Strategy
 
