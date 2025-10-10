@@ -1,11 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(\"C:\\Program Files\\R\\R-4.5.1\\bin\\Rscript.exe\" -e \"library(devtools); check(error_on = ''''never'''')\")",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(\"C:\\Program Files\\R\\R-4.5.1\\bin\\Rscript.exe\" -e \"cat(''cmdstanr installed:'', requireNamespace(''cmdstanr'', quietly=TRUE), ''\\n''); cat(''rstan installed:'', requireNamespace(''rstan'', quietly=TRUE), ''\\n'')\")",
-      "Bash(\"C:\\Program Files\\R\\R-4.5.1\\bin\\Rscript.exe\" -e \"library(devtools); load_all(); model_path <- system.file(''stan'', ''multidim_irt.stan'', package=''IRTscoring''); cat(''Model file exists:'', file.exists(model_path), ''\\n''); cat(''Model path:'', model_path, ''\\n'')\")"
+      "Bash(\"C:\\Program Files\\R\\R-4.5.1\\bin\\Rscript.exe\" -e \"library(devtools); load_all(); library(testthat); test_file(''''tests/testthat/test-data-preparation.R'''')\")"
     ],
     "deny": [],
     "ask": []
