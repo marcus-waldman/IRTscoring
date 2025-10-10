@@ -541,6 +541,22 @@ fit_irt_mcmc <- function(stan_data, backend = NULL,
 # Helper Functions
 # ============================================================================
 
+#' Check if cmdstanr is Available
+#'
+#' @return Logical indicating if cmdstanr package is installed
+#' @export
+has_cmdstanr <- function() {
+  requireNamespace("cmdstanr", quietly = TRUE)
+}
+
+#' Check if rstan is Available
+#'
+#' @return Logical indicating if rstan package is installed
+#' @export
+has_rstan <- function() {
+  requireNamespace("rstan", quietly = TRUE)
+}
+
 #' Check if Pathfinder is Available
 #'
 #' @return Logical indicating if cmdstanr has Pathfinder support
