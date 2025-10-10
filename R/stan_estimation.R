@@ -2,6 +2,9 @@
 #
 # Functions for compiling and accessing the Stan model
 
+#' @importFrom utils methods
+NULL
+
 #' Get Compiled Stan Model
 #'
 #' Returns a compiled Stan model object. Compiles the model on first call

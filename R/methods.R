@@ -2,6 +2,9 @@
 #
 # Print, summary, coef, and predict methods for IRT model fits
 
+#' @importFrom stats sd
+NULL
+
 #' Print IRT Model Fit
 #'
 #' @param x An object of class "irt_fit"

@@ -2,6 +2,9 @@
 #
 # Functions for using BridgeStan to interface with external optimizers
 
+#' @importFrom stats optim rnorm
+NULL
+
 #' Check if BridgeStan is Available
 #'
 #' @return Logical indicating if bridgestan package is installed

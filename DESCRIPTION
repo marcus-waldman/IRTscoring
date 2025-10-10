@@ -16,10 +16,7 @@ RoxygenNote: 7.3.3
 Imports:
     rstan (>= 2.26.0),
     cmdstanr,
-    checkmate,
-    Matrix,
-    posterior,
-    methods
+    checkmate
 Suggests:
     bridgestan,
     optimx,
@@ -28,8 +25,4 @@ Suggests:
     mirt,
     MASS,
     testthat (>= 3.0.0),
-    knitr,
-    rmarkdown,
-    ggplot2,
-    dplyr
-VignetteBuilder: knitr
+    devtools

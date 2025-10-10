@@ -2,6 +2,9 @@
 #
 # High-level functions for fitting IRT models with user-friendly interfaces
 
+#' @importFrom stats model.matrix as.formula
+NULL
+
 #' Fit IRT Model for Ability Scoring
 #'
 #' Main interface for fitting unidimensional or multidimensional IRT models.
